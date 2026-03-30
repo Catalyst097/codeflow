@@ -64,8 +64,8 @@ export default function DiagramViewer({ chart, diagramRef }) {
         <div className="flex flex-col items-center justify-center h-full gap-4 opacity-40">
           <div className="text-6xl">📊</div>
           <p className="text-gray-400 text-sm text-center">
-            Write code on the left and<br />click Generate Diagram
-          </p>
+  Start typing code on the left<br />diagram updates live ⚡
+</p>
         </div>
       )}
 

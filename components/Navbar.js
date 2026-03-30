@@ -17,9 +17,9 @@ export default function Navbar({ language, setLanguage }) {
         </div>
         <div>
           <h1 className="text-white font-bold text-lg leading-none">CodeFlow</h1>
-          <p className="text-xs leading-none mt-1" style={{ color: "#6366f1" }}>
-            Code → Diagram Generator
-          </p>
+<p className="text-xs leading-none mt-1" style={{ color: "#6366f1" }}>
+  by SystemicLogics
+</p>
         </div>
       </div>
 

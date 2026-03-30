@@ -49,6 +49,7 @@ export default function Home() {
   const handleRemoveKey = () => {
     localStorage.removeItem("anthropic_key");
     setSavedKey("");
+    setExplanation("");
   };
 
   const handleExplain = async () => {
@@ -96,29 +97,41 @@ export default function Home() {
 
       {/* API Key Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ background: "rgba(0,0,0,0.7)" }}>
-          <div className="rounded-2xl p-6 w-full max-w-md shadow-2xl"
-            style={{ background: "#1a1d2e", border: "1px solid #4f46e5" }}>
-
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center modal-backdrop"
+          style={{ background: "rgba(0,0,0,0.6)" }}
+          onClick={(e) => e.target === e.currentTarget && setShowModal(false)}
+        >
+          <div
+            className="rounded-2xl p-6 w-full max-w-md shadow-2xl animate-fadeIn"
+            style={{ background: "#1a1d2e", border: "1px solid #4f46e5" }}
+          >
             <div className="flex items-center gap-3 mb-4">
               <div className="text-2xl">🤖</div>
               <div>
-               <h2 className="text-white font-bold text-lg">Enable AI Explanation</h2>
-<p className="text-xs text-gray-400">Use your own Anthropic API key — free forever</p>
+                <h2 className="text-white font-bold text-lg">Enable AI Explanation</h2>
+                <p className="text-xs text-gray-400">Use your own Anthropic API key — free forever</p>
               </div>
             </div>
 
-            <div className="mb-4 p-3 rounded-lg text-xs text-gray-300 leading-relaxed"
-              style={{ background: "#0f1117" }}>
-             ✅ Your key is stored only on your device<br />
-🔑 Requires your own Anthropic API key<br />
-☕ Love the tool? Support us with a donation!
+            <div
+              className="mb-4 p-3 rounded-lg text-xs text-gray-300 leading-relaxed"
+              style={{ background: "#0f1117" }}
+            >
+              ✅ Get simple explanations of any code<br />
+              ✅ Supports Python, JS, Java, C++<br />
+              ✅ Your key is stored only on your device<br />
+              🔑 Requires your own Anthropic API key<br />
+              ☕ Love the tool? Support us with a donation!
             </div>
 
-            <a href="https://console.anthropic.com" target="_blank"
-              className="block text-center text-xs text-indigo-400 hover:text-indigo-300 mb-4 underline">
-              → Get your free API key at console.anthropic.com
+            <a
+              href="https://console.anthropic.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block text-center text-xs text-indigo-400 hover:text-indigo-300 mb-4 underline"
+            >
+              → Get your API key at console.anthropic.com
             </a>
 
             <input
@@ -128,22 +141,23 @@ export default function Home() {
               onChange={(e) => setApiKey(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSaveKey()}
               className="w-full px-4 py-3 rounded-lg text-sm text-white mb-4 outline-none"
-              style={{
-                background: "#0f1117",
-                border: "1px solid #374151",
-              }}
+              style={{ background: "#0f1117", border: "1px solid #374151" }}
             />
 
             <div className="flex gap-3">
-              <button onClick={() => setShowModal(false)}
+              <button
+                onClick={() => setShowModal(false)}
                 className="flex-1 py-2 rounded-lg text-sm text-gray-400 hover:text-white transition-colors"
-                style={{ background: "#374151" }}>
+                style={{ background: "#374151" }}
+              >
                 Cancel
               </button>
-              <button onClick={handleSaveKey}
+              <button
+                onClick={handleSaveKey}
                 disabled={!apiKey.trim()}
                 className="flex-1 py-2 rounded-lg text-sm font-bold text-white transition-all disabled:opacity-40"
-                style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}>
+                style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}
+              >
                 Save & Activate 🚀
               </button>
             </div>
@@ -154,7 +168,7 @@ export default function Home() {
       {/* Panel Labels */}
       <div className="flex border-b border-gray-800">
         <div className="w-1/2 px-4 py-2 flex items-center gap-2 border-r border-gray-800">
-          <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+          <div className="w-2 h-2 rounded-full bg-blue-500 animate-glow"></div>
           <span className="text-xs text-gray-400 font-medium uppercase tracking-widest">
             Code Editor
           </span>
@@ -171,14 +185,18 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-3">
             {savedKey && (
-              <button onClick={handleRemoveKey}
-                className="text-xs text-red-400 hover:text-red-300 transition-colors">
+              <button
+                onClick={handleRemoveKey}
+                className="text-xs text-red-400 hover:text-red-300 transition-colors"
+              >
                 🔑 Remove Key
               </button>
             )}
             {chart && (
-              <button onClick={handleDownload}
-                className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors">
+              <button
+                onClick={handleDownload}
+                className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+              >
                 ⬇ Export SVG
               </button>
             )}
@@ -204,7 +222,11 @@ export default function Home() {
                   : savedKey
                   ? "linear-gradient(135deg, #059669, #0d9488)"
                   : "linear-gradient(135deg, #4f46e5, #7c3aed)",
-                boxShadow: isExplaining ? "none" : "0 0 20px rgba(5,150,105,0.3)",
+                boxShadow: isExplaining
+                  ? "none"
+                  : savedKey
+                  ? "0 0 20px rgba(5,150,105,0.3)"
+                  : "0 0 20px rgba(79,70,229,0.3)",
               }}
             >
               {isExplaining
@@ -218,18 +240,32 @@ export default function Home() {
 
         {/* RIGHT */}
         <div className="w-1/2 h-full flex flex-col">
-          <div className="overflow-auto"
-            style={{ background: "#0f1117", flex: explanation ? "0 0 60%" : "1", transition: "flex 0.3s ease" }}>
+          <div
+            className="overflow-auto"
+            style={{
+              background: "#0f1117",
+              flex: explanation ? "0 0 60%" : "1",
+              transition: "flex 0.3s ease",
+            }}
+          >
             <DiagramViewer chart={chart} diagramRef={diagramRef} />
           </div>
 
           {(explanation || isExplaining) && (
-            <div className="border-t border-gray-800 p-4 overflow-auto"
-              style={{ flex: "0 0 40%", background: "#0d1117" }}>
-              <div className="flex items-center gap-2 mb-3">
+            <div
+              className="border-t border-gray-800 p-4 overflow-auto animate-fadeIn"
+              style={{ flex: "0 0 40%", background: "#0d1117" }}
+            >
+              <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-bold text-green-400 uppercase tracking-widest">
                   🤖 AI Explanation
                 </span>
+                <button
+                  onClick={() => setExplanation("")}
+                  className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
+                >
+                  ✕ Close
+                </button>
               </div>
               {isExplaining ? (
                 <p className="text-gray-400 text-sm animate-pulse">⏳ Analyzing your code...</p>
